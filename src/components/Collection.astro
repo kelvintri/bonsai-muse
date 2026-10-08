@@ -1,9 +1,16 @@
 ---
+import { getCollection } from "astro:content";
 import { Image } from "astro:assets";
-import { trees, species, sizes, styles, statuses } from "../data/trees";
 
 const images = import.meta.glob<{ default: ImageMetadata }>("../assets/tree-*.webp", { eager: true });
 const imgFor = (key: string) => images[`../assets/${key}.webp`]?.default;
+
+const trees = await getCollection("trees");
+const species = [...new Set(trees.map((t) => t.data.name))];
+const allSizes = ["Shito", "Mame", "Shohin", "Medium", "Large", "XL"];
+const sizes = allSizes.filter((z) => trees.some((t) => t.data.size === z));
+const styles = [...new Set(trees.map((t) => t.data.style))];
+const statuses = ["Available", "Reserved", "Sold", "Exported"];
 ---
 
 <section class="section" id="collection" style="background: var(--ink-2); border-block: 1px solid var(--hairline-soft);">
@@ -22,7 +29,7 @@ const imgFor = (key: string) => images[`../assets/${key}.webp`]?.default;
       <div class="filter-group" data-filter="size">
         <span class="filter-label">Size</span>
         <button class="chip active" data-value="">All</button>
-        {sizes.filter((z) => trees.some((t) => t.size === z)).map((s) => <button class="chip" data-value={s}>{s}</button>)}
+        {sizes.map((s) => <button class="chip" data-value={s}>{s}</button>)}
       </div>
       <div class="filter-group" data-filter="style">
         <span class="filter-label">Style</span>
@@ -37,20 +44,23 @@ const imgFor = (key: string) => images[`../assets/${key}.webp`]?.default;
     </div>
 
     <div class="collection-grid" id="collectionGrid">
-      {trees.map((t) => (
-        <a href="#contact" class="tree-card reveal"
-           data-species={t.name} data-size={t.size} data-style={t.style} data-status={t.status}>
-          <div class="tree-photo">
-            <Image src={imgFor(t.image)} alt={`${t.name} bonsai, ${t.style}`} />
-          </div>
-          <h3>{t.name}</h3>
-          <p class="tree-latin">{t.latin}</p>
-          <div class="mini-facts">
-            <span>{t.size}</span><span>{t.style}</span>
-            <span class={`status ${t.status.toLowerCase()}`} style="font-size:0.68rem">{t.status}</span>
-          </div>
-        </a>
-      ))}
+      {trees.map((t) => {
+        const d = t.data;
+        return (
+          <a href="#contact" class="tree-card reveal"
+             data-species={d.name} data-size={d.size} data-style={d.style} data-status={d.status}>
+            <div class="tree-photo">
+              <Image src={imgFor(d.image)} alt={`${d.name} bonsai, ${d.style}`} />
+            </div>
+            <h3>{d.name}</h3>
+            <p class="tree-latin">{d.latin}</p>
+            <div class="mini-facts">
+              <span>{d.size}</span><span>{d.style}</span>
+              <span class={`status ${d.status.toLowerCase()}`} style="font-size:0.68rem">{d.status}</span>
+            </div>
+          </a>
+        );
+      })}
     </div>
     <p class="empty-note" id="emptyNote">No trees match this combination — try widening the filters, or <a href="#contact" style="color:var(--amber)">ask us directly</a>.</p>
   </div>

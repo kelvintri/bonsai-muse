@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>D'Uma Admin</title>
+<style>
+  :root { --ink:#0b100e; --ink2:#101613; --bone:#ece7db; --dim:#b9b3a4; --faint:#7d7869;
+    --moss:#7a8b5a; --amber:#c9a25e; --line:rgba(236,231,219,.12); }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--ink); color:var(--bone); font-family:system-ui,-apple-system,sans-serif; font-size:15px; line-height:1.6; }
+  .wrap { max-width:1080px; margin:0 auto; padding:2rem 5vw; }
+  h1,h2 { font-weight:600; letter-spacing:.02em; }
+  .topbar { display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--line); padding:1rem 5vw; max-width:none; }
+  .topbar b { letter-spacing:.2em; font-size:.95rem; }
+  .tabs { display:flex; gap:.5rem; margin:1.5rem 0; }
+  .tab { background:none; border:1px solid var(--line); color:var(--dim); padding:.6em 1.4em; border-radius:999px; cursor:pointer; font-size:.9rem; }
+  .tab.active { background:var(--bone); color:var(--ink); border-color:var(--bone); }
+  .row { display:flex; justify-content:space-between; align-items:center; gap:1rem; }
+  .list { border-top:1px solid var(--line); margin-top:1rem; }
+  .item { display:flex; justify-content:space-between; align-items:center; padding:1rem .2rem; border-bottom:1px solid var(--line); }
+  .item .meta { color:var(--faint); font-size:.85rem; }
+  .btn { background:transparent; border:1px solid rgba(236,231,219,.35); color:var(--bone); padding:.65em 1.4em; border-radius:3px; cursor:pointer; font-size:.88rem; letter-spacing:.06em; }
+  .btn:hover { background:var(--bone); color:var(--ink); }
+  .btn.primary { background:var(--amber); border-color:var(--amber); color:#14100a; }
+  .btn.primary:hover { background:var(--bone); border-color:var(--bone); }
+  .btn.danger { border-color:#a35a5a; color:#d99a9a; }
+  .btn.small { padding:.4em .9em; font-size:.8rem; }
+  .card { background:var(--ink2); border:1px solid var(--line); border-radius:6px; padding:1.8rem; margin-top:1.5rem; }
+  .field { margin-bottom:1.1rem; }
+  .field label { display:block; font-size:.72rem; letter-spacing:.18em; text-transform:uppercase; color:var(--faint); margin-bottom:.45rem; }
+  .field input,.field textarea,.field select { width:100%; background:var(--ink); border:1px solid var(--line); border-radius:3px; color:var(--bone); font-size:.95rem; padding:.7em .9em; font-family:inherit; }
+  .field textarea { min-height:120px; resize:vertical; }
+  .field textarea.tall { min-height:260px; font-family:ui-monospace,monospace; font-size:.88rem; }
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+  @media(max-width:640px){.grid2{grid-template-columns:1fr;}}
+  .login-box { max-width:380px; margin:12vh auto; }
+  .err { color:#d99a9a; font-size:.88rem; margin-top:.8rem; min-height:1.4em; }
+  .okmsg { color:var(--moss); font-size:.88rem; margin-top:.8rem; }
+  .hidden { display:none !important; }
+  .img-preview { max-width:220px; border-radius:4px; margin-top:.6rem; border:1px solid var(--line); }
+  .hint { color:var(--faint); font-size:.82rem; }
+</style>
+</head>
+<body>
+<div id="loginView" class="wrap hidden">
+  <div class="login-box card">
+    <h2>Bonsai D'Uma — Admin</h2>
+    <div class="field"><label>Username</label><input id="loginUser" autocomplete="username" /></div>
+    <div class="field"><label>Password</label><input id="loginPass" type="password" autocomplete="current-password" /></div>
+    <button class="btn primary" id="loginBtn" style="width:100%">Log in</button>
+    <p class="err" id="loginErr"></p>
+  </div>
+</div>
+
+<div id="appView" class="hidden">
+  <div class="topbar">
+    <b>D'UMA ADMIN</b>
+    <div class="row" style="gap:.8rem">
+      <span class="hint" id="whoami"></span>
+      <button class="btn small" id="logoutBtn">Log out</button>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="tabs">
+      <button class="tab active" data-kind="trees">Collection</button>
+      <button class="tab" data-kind="journal">Journal</button>
+    </div>
+    <div id="listView">
+      <div class="row">
+        <h2 id="listTitle">Collection</h2>
+        <button class="btn primary" id="newBtn">+ New</button>
+      </div>
+      <div class="list" id="itemList"></div>
+    </div>
+    <div id="editView" class="hidden">
+      <button class="btn small" id="backBtn">← Back</button>
+      <div class="card" id="editForm"></div>
+    </div>
+    <p class="okmsg" id="saveMsg"></p>
+  </div>
+</div>
+
+<script src="admin.js"></script>
+</body>
+</html>
