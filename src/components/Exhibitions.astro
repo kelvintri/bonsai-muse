@@ -1,0 +1,32 @@
+---
+import { Image } from "astro:assets";
+import exhibitionImg from "../assets/exhibition.webp";
+---
+
+<section class="section" id="exhibitions">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2 class="section-title">Exhibitions & Events</h2>
+      <p class="section-note">Where the trees meet the world.</p>
+    </div>
+
+    <article class="exhibit-feature reveal">
+      <div><Image src={exhibitionImg} alt="ROOTED exhibition — bonsai displayed in a dark gallery" /></div>
+      <div class="exhibit-body">
+        <h3>ROOTED — Living Art Exhibition</h3>
+        <p class="exhibit-where">ZIN Resort Canggu — Bali · 2026</p>
+        <p>Our landmark exhibition: museum-grade Indonesian bonsai staged as living sculpture — participating trees, exhibition film, and collaborations with Bali's creative community.</p>
+        <div style="margin-top: 1.8rem"><a class="btn" href="#contact">View Exhibition <span class="arrow">→</span></a></div>
+      </div>
+    </article>
+
+    <div class="exhibit-list reveal">
+      <a href="#contact"><h4>Pamnas</h4><span>National exhibition · Indonesia</span></a>
+      <a href="#contact"><h4>National Exhibitions</h4><span>Across Indonesia</span></a>
+      <a href="#contact"><h4>International Exhibitions</h4><span>Worldwide</span></a>
+      <a href="#contact"><h4>Workshops</h4><span>At the gallery & on tour</span></a>
+      <a href="#contact"><h4>Hotel Displays</h4><span>Curated placements</span></a>
+      <a href="#contact"><h4>Gallery Events</h4><span>Private viewings & collaborations</span></a>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,42 @@
+---
+import { Image } from "astro:assets";
+import gardenWide from "../assets/garden-wide.webp";
+import gardenDetail from "../assets/garden-detail.webp";
+---
+
+<section class="section" id="garden">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2 class="section-title">The Garden</h2>
+      <p class="section-note">A living gallery in Bali — where the collection grows, breathes, and is shaped daily.</p>
+    </div>
+    <div class="garden-wide reveal">
+      <Image src={gardenWide} alt="Rows of bonsai in the Bali garden at dusk" />
+    </div>
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap: clamp(1.5rem,3vw,2.5rem); margin-bottom: 3rem;" class="reveal garden-detail-grid">
+      <div class="tree-photo"><Image src={gardenDetail} alt="Hands wiring a bonsai branch" style="aspect-ratio: 16/10;" /></div>
+      <div style="display:flex; flex-direction:column; justify-content:center;">
+        <h3 style="font-size:1.8rem; margin-bottom:1rem;">Daily Bonsai Life</h3>
+        <p style="color: var(--bone-dim);">Watering at dawn. Wiring, pruning, and repotting through the day. Every tree in the collection area is touched by human hands daily — this is not a warehouse, it is a practice.</p>
+      </div>
+    </div>
+    <div class="garden-cols">
+      <div class="reveal">
+        <h3>Collection Area</h3>
+        <p>Mature specimen trees displayed on carved stone and hardwood stands, arranged as a walking gallery through tropical planting.</p>
+      </div>
+      <div class="reveal">
+        <h3>Cultivation Grounds</h3>
+        <p>Young material and pre-bonsai stock growing out under Bali's sun — the future of the collection, years in the making.</p>
+      </div>
+      <div class="reveal">
+        <h3>Workshop Pavilion</h3>
+        <p>Where styling sessions, repotting, and workshops happen. Visitors are welcome to watch the work — and to learn it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  @media (max-width: 760px) { .garden-detail-grid { grid-template-columns: 1fr !important; } }
+</style>

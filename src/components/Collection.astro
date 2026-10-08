@@ -1,0 +1,90 @@
+---
+import { Image } from "astro:assets";
+import { trees, species, sizes, styles, statuses } from "../data/trees";
+
+const images = import.meta.glob<{ default: ImageMetadata }>("../assets/tree-*.webp", { eager: true });
+const imgFor = (key: string) => images[`../assets/${key}.webp`]?.default;
+---
+
+<section class="section" id="collection" style="background: var(--ink-2); border-block: 1px solid var(--hairline-soft);">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2 class="section-title">The Collection</h2>
+      <p class="section-note">Every tree is one of one. Filter by species, size, style, or availability — then inquire.</p>
+    </div>
+
+    <div class="filters reveal" role="group" aria-label="Filter collection">
+      <div class="filter-group" data-filter="species">
+        <span class="filter-label">Species</span>
+        <button class="chip active" data-value="">All</button>
+        {species.map((s) => <button class="chip" data-value={s}>{s}</button>)}
+      </div>
+      <div class="filter-group" data-filter="size">
+        <span class="filter-label">Size</span>
+        <button class="chip active" data-value="">All</button>
+        {sizes.filter((z) => trees.some((t) => t.size === z)).map((s) => <button class="chip" data-value={s}>{s}</button>)}
+      </div>
+      <div class="filter-group" data-filter="style">
+        <span class="filter-label">Style</span>
+        <button class="chip active" data-value="">All</button>
+        {styles.map((s) => <button class="chip" data-value={s}>{s}</button>)}
+      </div>
+      <div class="filter-group" data-filter="status">
+        <span class="filter-label">Status</span>
+        <button class="chip active" data-value="">All</button>
+        {statuses.map((s) => <button class="chip" data-value={s}>{s}</button>)}
+      </div>
+    </div>
+
+    <div class="collection-grid" id="collectionGrid">
+      {trees.map((t) => (
+        <a href="#contact" class="tree-card reveal"
+           data-species={t.name} data-size={t.size} data-style={t.style} data-status={t.status}>
+          <div class="tree-photo">
+            <Image src={imgFor(t.image)} alt={`${t.name} bonsai, ${t.style}`} />
+          </div>
+          <h3>{t.name}</h3>
+          <p class="tree-latin">{t.latin}</p>
+          <div class="mini-facts">
+            <span>{t.size}</span><span>{t.style}</span>
+            <span class={`status ${t.status.toLowerCase()}`} style="font-size:0.68rem">{t.status}</span>
+          </div>
+        </a>
+      ))}
+    </div>
+    <p class="empty-note" id="emptyNote">No trees match this combination — try widening the filters, or <a href="#contact" style="color:var(--amber)">ask us directly</a>.</p>
+  </div>
+</section>
+
+<script>
+  const groups = document.querySelectorAll(".filter-group");
+  const cards = document.querySelectorAll(".tree-card");
+  const emptyNote = document.getElementById("emptyNote");
+  const active = { species: "", size: "", style: "", status: "" };
+
+  groups.forEach((g) => {
+    const key = g.getAttribute("data-filter");
+    g.querySelectorAll(".chip").forEach((chip) => {
+      chip.addEventListener("click", () => {
+        g.querySelectorAll(".chip").forEach((c) => c.classList.remove("active"));
+        chip.classList.add("active");
+        active[key] = chip.getAttribute("data-value");
+        apply();
+      });
+    });
+  });
+
+  function apply() {
+    let visible = 0;
+    cards.forEach((c) => {
+      const show =
+        (!active.species || c.dataset.species === active.species) &&
+        (!active.size || c.dataset.size === active.size) &&
+        (!active.style || c.dataset.style === active.style) &&
+        (!active.status || c.dataset.status === active.status);
+      c.classList.toggle("hidden", !show);
+      if (show) visible++;
+    });
+    emptyNote.classList.toggle("show", visible === 0);
+  }
+</script>

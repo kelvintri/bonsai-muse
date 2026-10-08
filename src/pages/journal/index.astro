@@ -1,0 +1,35 @@
+---
+import { getCollection } from "astro:content";
+import { Image } from "astro:assets";
+import Layout from "../../layouts/Layout.astro";
+
+const posts = (await getCollection("journal")).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const slugOf = (p: (typeof posts)[number]) => p.id.replace(/\.md$/, "");
+const images = import.meta.glob<{ default: ImageMetadata }>("../../assets/*.webp", { eager: true });
+const imgFor = (key: string) => images[`../../assets/${key}.webp`]?.default;
+const fmt = (d: Date) => d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+---
+
+<Layout title="D'Uma Journal — Bonsai D'Uma Bali" description="Essays on Indonesian bonsai: Santigi, exhibition preparation, export journeys, and the art of display.">
+  <main class="section" style="padding-top: clamp(7rem, 12vh, 10rem);">
+    <div class="wrap">
+      <a class="back-link" href="/">← Back to the gallery</a>
+      <div class="section-head reveal in">
+        <h2 class="section-title">D'Uma Journal</h2>
+        <p class="section-note">Essays on the art, craft, and journeys of Indonesian bonsai.</p>
+      </div>
+      <div class="journal-grid">
+        {posts.map((p) => (
+          <a class="post-card" href={`/journal/${slugOf(p)}/`}>
+            <Image src={imgFor(p.data.image)} alt={p.data.imageAlt} />
+            <div class="post-body">
+              <p class="post-date">{fmt(p.data.date)}</p>
+              <h3>{p.data.title}</h3>
+              <p>{p.data.description}</p>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </main>
+</Layout>

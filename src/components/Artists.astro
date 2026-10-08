@@ -1,0 +1,28 @@
+---
+import { Image } from "astro:assets";
+import founderImg from "../assets/artist-founder.webp";
+---
+
+<section class="section" id="artists" style="background: var(--ink-2); border-block: 1px solid var(--hairline-soft);">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2 class="section-title">The Artists</h2>
+      <p class="section-note">The people behind the trees.</p>
+    </div>
+    <div class="artist">
+      <div class="reveal">
+        <Image src={founderImg} alt="Founder of Bonsai D'Uma Bali in the garden" />
+      </div>
+      <div class="reveal">
+        <blockquote>"A bonsai is never finished. We are only its caretakers for a while — shaping what nature began, for someone who will love it next."</blockquote>
+        <cite>The Founder — Bonsai D'Uma Bali</cite>
+        <p style="color: var(--bone-dim); margin-top: 1.8rem;">From a front yard in Bali in 2020 to a gallery exporting worldwide — our founder's lifelong passion shapes every tree. Alongside him, the D'Uma bonsai team cultivates, styles, and prepares each tree for its next caretaker, whether across the island or across the ocean.</p>
+        <div style="display:flex; gap: 3rem; margin-top: 2.2rem; flex-wrap: wrap;">
+          <div><div style="font-family: var(--display); font-size: 2rem; color: var(--amber);">2020</div><div style="font-size:0.82rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--bone-faint);">Founded</div></div>
+          <div><div style="font-family: var(--display); font-size: 2rem; color: var(--amber);">1</div><div style="font-size:0.82rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--bone-faint);">Living gallery</div></div>
+          <div><div style="font-family: var(--display); font-size: 2rem; color: var(--amber);">∞</div><div style="font-size:0.82rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--bone-faint);">Trees in care</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

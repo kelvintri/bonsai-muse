@@ -1,0 +1,39 @@
+---
+import { Image } from "astro:assets";
+import { trees } from "../data/trees";
+
+const images = import.meta.glob<{ default: ImageMetadata }>("../assets/tree-*.webp", { eager: true });
+const imgFor = (key: string) => images[`../assets/${key}.webp`]?.default;
+
+const featured = [trees[0], trees[1], trees[4]];
+---
+
+<section class="section" id="featured">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2 class="section-title">Featured Bonsai</h2>
+      <p class="section-note">Three trees that define the gallery — each one cultivated, styled, and finished by hand in Bali.</p>
+    </div>
+
+    {featured.map((t, i) => (
+      <article class={`featured-tree reveal ${i % 2 === 1 ? "flip" : ""}`}>
+        <div class="tree-photo">
+          <Image src={imgFor(t.image)} alt={`${t.name} bonsai, ${t.style}`} />
+        </div>
+        <div>
+          <p class="tree-meta">{t.origin} · {t.size} · {t.style}</p>
+          <h3 class="tree-name">{t.name}</h3>
+          <p class="tree-latin">{t.latin}</p>
+          <p style="color: var(--bone-dim)">{t.story}</p>
+          <dl class="tree-facts">
+            <div><dt>Species</dt><dd>{t.latin}</dd></div>
+            <div><dt>Origin</dt><dd>{t.origin}</dd></div>
+            <div><dt>Size</dt><dd>{t.size}</dd></div>
+            <div><dt>Style</dt><dd>{t.style}</dd></div>
+          </dl>
+          <span class={`status ${t.status.toLowerCase()}`}>{t.status}</span>
+        </div>
+      </article>
+    ))}
+  </div>
+</section>

@@ -1,0 +1,28 @@
+---
+const services = [
+  { name: "Bonsai Sales", desc: "Museum-grade specimen trees, selected and documented for private collections." },
+  { name: "Consultation", desc: "Guidance on building, siting, and caring for a collection — in Bali or abroad." },
+  { name: "Styling", desc: "Artistic styling by our team, from refinement to full restyling of mature trees." },
+  { name: "Maintenance", desc: "Ongoing care programs for collectors who want their trees kept at exhibition standard." },
+  { name: "Repotting", desc: "Repotting with proper soil, root work, and aftercare — at the gallery or on-site." },
+  { name: "Export Services", desc: "Phytosanitary certification, custom crating, and insured delivery worldwide." },
+];
+---
+
+<section class="section" id="services">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2 class="section-title">Services</h2>
+      <p class="section-note">Beyond the trees themselves — the practice that keeps them alive and thriving.</p>
+    </div>
+    <div class="ledger reveal">
+      {services.map((s) => (
+        <a class="ledger-row" href="#contact">
+          <h3>{s.name}</h3>
+          <p>{s.desc}</p>
+          <span class="arrow">→</span>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>

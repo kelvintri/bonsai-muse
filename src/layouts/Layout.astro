@@ -1,0 +1,123 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Bonsai D'Uma Bali — Living Art from Indonesia",
+  description = "One of Bali's premier bonsai galleries. Museum-grade Indonesian bonsai, cultivated in Bali and exported to collectors worldwide since 2020.",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+  <body>
+    <nav class="nav" id="nav" aria-label="Primary">
+      <div class="nav-inner">
+        <a class="wordmark" href="#top">BONSAI D'UMA<small>BALI · EST. 2020</small></a>
+        <ul class="nav-links" id="navLinks">
+          <li><a href="#collection">Collection</a></li>
+          <li><a href="#export">Export</a></li>
+          <li><a href="#garden">Garden</a></li>
+          <li><a href="#artists">Artists</a></li>
+          <li><a href="#exhibitions">Exhibitions</a></li>
+          <li><a href="#journal">Journal</a></li>
+          <li><a href="#visit">Visit</a></li>
+        </ul>
+        <a class="nav-cta" href="#contact">Inquire</a>
+        <button class="burger" id="burger" aria-label="Menu" aria-expanded="false">☰</button>
+      </div>
+    </nav>
+
+    <slot />
+
+    <footer>
+      <div class="wrap">
+        <div class="foot-grid">
+          <div>
+            <a class="wordmark" href="#top" style="font-size:1.4rem">BONSAI D'UMA</a>
+            <p class="foot-tag">Living Art from Indonesia.</p>
+            <p class="provenance">Imagery on this site is AI-generated placeholder art, to be replaced with gallery photography.</p>
+          </div>
+          <div>
+            <h4>Collection</h4>
+            <ul>
+              <li><a href="#collection">Bonsai Collection</a></li>
+              <li><a href="#export">International Export</a></li>
+              <li><a href="#garden">The Garden</a></li>
+              <li><a href="#artists">Artists</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Gallery</h4>
+            <ul>
+              <li><a href="#exhibitions">Exhibitions</a></li>
+              <li><a href="#journal">Journal</a></li>
+              <li><a href="#services">Services</a></li>
+              <li><a href="#visit">Visit Us</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Contact</h4>
+            <ul>
+              <li><a href="#contact">Private Inquiry</a></li>
+              <li><a href="#visit">Appointments</a></li>
+              <li><a href="#services">Workshops</a></li>
+            </ul>
+            <div class="socials" style="margin-top:1.4rem">
+              <a href="#" aria-label="Instagram">Instagram</a>
+              <a href="#" aria-label="YouTube">YouTube</a>
+              <a href="#" aria-label="Facebook">Facebook</a>
+            </div>
+          </div>
+        </div>
+        <div class="foot-base">
+          <span>© 2026 Bonsai D'Uma Bali. All rights reserved.</span>
+          <span>Bali, Indonesia — From Bali to the World</span>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      const nav = document.getElementById("nav");
+      const onScroll = () => nav.classList.toggle("scrolled", window.scrollY > 40);
+      window.addEventListener("scroll", onScroll, { passive: true });
+      onScroll();
+
+      const burger = document.getElementById("burger");
+      const links = document.getElementById("navLinks");
+      burger.addEventListener("click", () => {
+        const open = links.classList.toggle("open");
+        burger.setAttribute("aria-expanded", String(open));
+      });
+      links.querySelectorAll("a").forEach((a) =>
+        a.addEventListener("click", () => links.classList.remove("open"))
+      );
+
+      const io = new IntersectionObserver(
+        (entries) =>
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add("in");
+              io.unobserve(e.target);
+            }
+          }),
+        { threshold: 0.12 }
+      );
+      document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+    </script>
+  </body>
+</html>

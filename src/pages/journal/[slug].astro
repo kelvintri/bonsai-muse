@@ -1,0 +1,29 @@
+---
+import { getCollection, render } from "astro:content";
+import { Image } from "astro:assets";
+import Layout from "../../layouts/Layout.astro";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("journal");
+  return posts.map((p) => ({
+    params: { slug: p.id.replace(/\.md$/, "") },
+    props: { post: p },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const images = import.meta.glob<{ default: ImageMetadata }>("../../assets/*.webp", { eager: true });
+const imgFor = (key: string) => images[`../../assets/${key}.webp`]?.default;
+const fmt = (d: Date) => d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+---
+
+<Layout title={`${post.data.title} — D'Uma Journal`} description={post.data.description}>
+  <article class="article">
+    <a class="back-link" href="/journal/">← D'Uma Journal</a>
+    <p class="post-date">{fmt(post.data.date)}</p>
+    <h1>{post.data.title}</h1>
+    <Image class="lead" src={imgFor(post.data.image)} alt={post.data.imageAlt} />
+    <Content />
+  </article>
+</Layout>

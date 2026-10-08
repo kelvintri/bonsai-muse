@@ -1,0 +1,72 @@
+---
+const purposes = ["Private Collection", "Exhibition", "Export", "Wholesale / Dealer", "Collaboration", "Workshop"];
+---
+
+<section class="section" id="contact">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2 class="section-title">Private Collection Inquiry</h2>
+      <p class="section-note">Serious inquiries only, please. Tell us what you are looking for — we reply personally.</p>
+    </div>
+    <div class="form-shell">
+      <div class="reveal">
+        <p style="color: var(--bone-dim);">Whether it is a single masterpiece for your home, trees for exhibition, or a wholesale partnership — every inquiry is read by the gallery, not a machine.</p>
+        <p style="color: var(--bone-dim); margin-top: 1.2rem;">For time-sensitive matters, reach us through the gallery's WhatsApp and social channels.</p>
+        <div class="socials" style="margin-top: 1.8rem; display:flex; gap:1.4rem;">
+          <a href="#">Instagram</a><a href="#">YouTube</a><a href="#">Facebook</a>
+        </div>
+      </div>
+      <form class="reveal" id="inquiryForm" action="#" method="post">
+        <div class="field-row">
+          <div class="field">
+            <label for="f-name">Name</label>
+            <input id="f-name" name="name" type="text" required autocomplete="name" />
+          </div>
+          <div class="field">
+            <label for="f-country">Country</label>
+            <input id="f-country" name="country" type="text" required autocomplete="country-name" />
+          </div>
+        </div>
+        <div class="field">
+          <label for="f-contact">Email / WhatsApp</label>
+          <input id="f-contact" name="contact" type="text" required autocomplete="email" />
+        </div>
+        <div class="field">
+          <label for="f-tree">Tree of Interest</label>
+          <input id="f-tree" name="tree" type="text" placeholder="e.g. Santigi, Semi-Cascade, Medium" />
+        </div>
+        <div class="field">
+          <label>Collection Purpose</label>
+          <div class="purpose-pick" role="group" aria-label="Collection purpose">
+            {purposes.map((p, i) => (
+              <button type="button" class={`chip purpose-chip ${i === 0 ? "active" : ""}`} data-value={p}>{p}</button>
+            ))}
+          </div>
+          <input type="hidden" name="purpose" id="f-purpose" value={purposes[0]} />
+        </div>
+        <div class="field">
+          <label for="f-msg">Message</label>
+          <textarea id="f-msg" name="message" required></textarea>
+        </div>
+        <button class="btn btn-solid" type="submit">Send Inquiry <span class="arrow">→</span></button>
+        <p class="provenance" id="formNote" style="margin-top: 1rem; display:none;">Thank you — your inquiry has been noted. (Demo form: wire a backend or mailto to go live.)</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll(".purpose-chip").forEach((chip) => {
+    chip.addEventListener("click", () => {
+      document.querySelectorAll(".purpose-chip").forEach((c) => c.classList.remove("active"));
+      chip.classList.add("active");
+      document.getElementById("f-purpose").value = chip.getAttribute("data-value");
+    });
+  });
+  document.getElementById("inquiryForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    document.getElementById("formNote").style.display = "block";
+    e.target.reset();
+    document.querySelectorAll(".purpose-chip").forEach((c, i) => c.classList.toggle("active", i === 0));
+  });
+</script>

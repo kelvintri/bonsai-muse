@@ -1,0 +1,34 @@
+---
+import { getCollection } from "astro:content";
+import { Image } from "astro:assets";
+
+const posts = (await getCollection("journal")).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()).slice(0, 2);
+const slugOf = (p: (typeof posts)[number]) => p.id.replace(/\.md$/, "");
+const images = import.meta.glob<{ default: ImageMetadata }>("../assets/*.webp", { eager: true });
+const imgFor = (key: string) => images[`../assets/${key}.webp`]?.default;
+const fmt = (d: Date) => d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+---
+
+<section class="section" id="journal" style="background: var(--ink-2); border-block: 1px solid var(--hairline-soft);">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2 class="section-title">D'Uma Journal</h2>
+      <p class="section-note">Essays on Indonesian bonsai — written from the garden, for collectors everywhere.</p>
+    </div>
+    <div class="journal-grid">
+      {posts.map((p) => (
+        <a class="post-card reveal" href={`/journal/${slugOf(p)}/`}>
+          <Image src={imgFor(p.data.image)} alt={p.data.imageAlt} />
+          <div class="post-body">
+            <p class="post-date">{fmt(p.data.date)}</p>
+            <h3>{p.data.title}</h3>
+            <p>{p.data.description}</p>
+          </div>
+        </a>
+      ))}
+    </div>
+    <div class="reveal" style="margin-top: 2.5rem; text-align: center;">
+      <a class="btn" href="/journal/">All Articles <span class="arrow">→</span></a>
+    </div>
+  </div>
+</section>
