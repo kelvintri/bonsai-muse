@@ -47,7 +47,7 @@ const statuses = ["Available", "Reserved", "Sold", "Exported"];
       {trees.map((t) => {
         const d = t.data;
         return (
-          <a href="#contact" class="tree-card reveal"
+          <a href="/visit#contact" class="tree-card reveal"
              data-species={d.name} data-size={d.size} data-style={d.style} data-status={d.status}>
             <div class="tree-photo">
               <Image src={imgFor(d.image)} alt={`${d.name} bonsai, ${d.style}`} />
@@ -62,7 +62,7 @@ const statuses = ["Available", "Reserved", "Sold", "Exported"];
         );
       })}
     </div>
-    <p class="empty-note" id="emptyNote">No trees match this combination — try widening the filters, or <a href="#contact" style="color:var(--amber)">ask us directly</a>.</p>
+    <p class="empty-note" id="emptyNote">No trees match this combination — try widening the filters, or <a href="/visit#contact" style="color:var(--amber)">ask us directly</a>.</p>
   </div>
 </section>
 
